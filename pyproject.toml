@@ -1,5 +1,5 @@
 [project]
-name = "python-cli-template"
+name = "stash-tool"
 version = "0.1.0"
 description = "Command line application template for python."
 readme = "README.md"
@@ -11,10 +11,10 @@ dependencies = [
 ]
 
 [project.scripts]
-cli-template = "cli_template.commands.main:cmd"
+stash-tool = "stash_tool.commands.main:cmd"
 
 [tool.hatch.build.targets.wheel]
-packages = ["cli_template"]
+packages = ["stash_tool"]
 
 [tool.hatch.metadata]
 allow-direct-references = true

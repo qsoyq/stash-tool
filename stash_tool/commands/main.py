@@ -1,6 +1,6 @@
 import typer
 
-from cli_template.commands import default_invoke_without_command
+from stash_tool.commands import default_invoke_without_command
 
 helptext = """
 
