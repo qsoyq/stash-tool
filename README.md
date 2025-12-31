@@ -1,6 +1,6 @@
 # stash-tool
 
-toolkit for iOS Stash VPN
+toolkit for iOS Stash VPN.
 
 ## Install
 

@@ -1,7 +1,7 @@
 [project]
 name = "stash-tool"
-version = "0.1.0"
-description = "Command line application template for python."
+version = "0.1.1"
+description = "toolkit for iOS Stash VPN."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -12,6 +12,7 @@ dependencies = [
 
 [project.scripts]
 stash-tool = "stash_tool.commands.main:cmd"
+stash-tool-force-http-engine = "stash_tool.commands.force_http_engine:cmd"
 
 [tool.hatch.build.targets.wheel]
 packages = ["stash_tool"]
