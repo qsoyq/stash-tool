@@ -4,14 +4,20 @@ import typer
 import yaml
 from typer_utils.utils import error
 
+from stash_tool.commands import default_invoke_without_command
+
 help_text = """
 为指定目录下所有覆写文件补充 force-http-engine
 """
 cmd = typer.Typer(help=help_text)
 
 
-@cmd.callback(invoke_without_command=True)
-def default(): ...
+def add_default_invoke():
+    for _cmd in (cmd,):
+        _cmd.callback(invoke_without_command=True)(default_invoke_without_command)
+
+
+add_default_invoke()
 
 
 class MyDumper(yaml.SafeDumper):
