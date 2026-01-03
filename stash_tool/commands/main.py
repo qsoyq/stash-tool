@@ -1,14 +1,14 @@
 import typer
 
-from stash_tool.commands import default_invoke_without_command
 import stash_tool.commands.force_http_engine
+from stash_tool.commands import default_invoke_without_command
 
 helptext = """
 toolkit for iOS Stash VPN.
 """
 
 cmd = typer.Typer(help=helptext)
-cmd.add_typer(stash_tool.commands.force_http_engine.cmd, name="force-http-engine")
+cmd.add_typer(stash_tool.commands.force_http_engine.cmd, name='force-http-engine')
 
 
 def add_default_invoke():
@@ -18,5 +18,5 @@ def add_default_invoke():
 
 add_default_invoke()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     cmd()
