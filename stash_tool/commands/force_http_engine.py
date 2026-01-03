@@ -14,6 +14,33 @@ cmd = typer.Typer(help=help_text)
 def default(): ...
 
 
+class MyDumper(yaml.SafeDumper):
+    def increase_indent(self, flow: bool = False, indentless: bool = False):
+        return super(MyDumper, self).increase_indent(flow, indentless=False)
+
+
+def represent_dict_with_quoted_keys(dumper, data):
+    mapping = []
+    for key, value in data.items():
+        if isinstance(key, str):
+            key_node = dumper.represent_scalar("tag:yaml.org,2002:str", key, style=None)
+        else:
+            key_node = dumper.represent_data(key)
+
+        match key:
+            case "desc":
+                value_node = dumper.represent_scalar("tag:yaml.org,2002:str", value, style="|")
+            case _:
+                value_node = dumper.represent_data(value)
+        mapping.append((key_node, value_node))
+    return yaml.MappingNode("tag:yaml.org,2002:map", mapping)
+
+
+def my_yaml_dump(data: dict, indent: int = 4):
+    MyDumper.add_representer(dict, represent_dict_with_quoted_keys)
+    return yaml.dump(data, Dumper=MyDumper, allow_unicode=True, indent=indent, width=9999, sort_keys=False)
+
+
 def iterdir(path: Path, inplace: bool, verbose: bool, indent: int = 4):
     for p in path.iterdir():
         if p.is_dir():
@@ -34,8 +61,12 @@ def iterdir(path: Path, inplace: bool, verbose: bool, indent: int = 4):
                         typer.echo(f"{p} -> {item}")
 
             if force and inplace:
-                data["http"]["force-http-engine"] = list(force)
-                p.write_text(yaml.safe_dump(data, allow_unicode=True, indent=indent))
+                http_payload = {}
+                http_payload["mitm"] = sorted(data["http"]["mitm"])
+                http_payload["force-http-engine"] = sorted(list(force))
+                http_payload.update(data["http"])
+                data["http"] = http_payload
+                p.write_text(my_yaml_dump(data))
 
 
 @cmd.command()
