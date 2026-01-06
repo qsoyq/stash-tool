@@ -1,18 +1,21 @@
 [project]
 name = "stash-tool"
-version = "0.1.5"
+version = "0.1.6"
 description = "toolkit for iOS Stash VPN."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "httpx>=0.28.1",
     "ipython>=8.37.0",
     "pre-commit>=4.5.1",
+    "pydantic>=2.12.5",
     "typer-utils@git+https://github.com/qsoyq/typer_utils",
 ]
 
 [project.scripts]
 stash-tool = "stash_tool.commands.main:cmd"
 stash-tool-override-format = "stash_tool.commands.override_format:cmd"
+stash-tool-http-capture-parser = "stash_tool.commands.http_catpure_parser:cmd"
 
 [tool.hatch.build.targets.wheel]
 packages = ["stash_tool"]
@@ -92,7 +95,6 @@ docstring-code-format = true
 # This only has an effect when the `docstring-code-format` setting is
 # enabled.
 # docstring-code-line-length = "dynamic"
-
 [tool.mypy]
 warn_return_any = true
 warn_unused_configs = true
@@ -101,9 +103,7 @@ exclude = ['^venv/', '^__init__\.py$']
 explicit_package_bases = true
 
 [[tool.mypy.overrides]]
-module = [
-    "typer_utils.*",
-]
+module = ["typer_utils.*"]
 ignore_missing_imports = true
 follow_untyped_imports = true
 
